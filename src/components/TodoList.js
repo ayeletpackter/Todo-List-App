@@ -2,8 +2,8 @@ import React from 'react'
 import reactDom from 'react-dom'
 import Task from './Task.js'
 import TaskForm from './Form.js'
+import {} from 'react-bootstrap'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class TodoList extends React.Component{
@@ -68,30 +68,32 @@ class TodoList extends React.Component{
     render(){
         return(
             <div style={myFormStyles}>
+                <h1>MY TASKS LIST</h1>
                 <TaskForm handleUpdateState={this.handleUpdateState} addTask={this.addTask} deleteAllTasks={this.deleteAllTasks} deleteCompletedTasks={this.deleteCompletedTasks}/>
                 <div>
                    {
                        this.state.todoList.map((task,index)=>{
                            console.log(task)
                            if(task.isComplete==false)
-                           return(<Task myFormStyles2={myFormStyles3} text={task.text} completeTask={this.completeTask} task={task} key={index}/>)
+                                return(<Task myFormStyles2={myFormStyles3} text={task.text} completeTask={this.completeTask} task={task} key={index}/>)
                            else
-                           return(<Task myFormStyles2={myFormStyles2} text={task.text} completeTask={this.completeTask} task={task} key={index}/>)
+                                return(<Task myFormStyles2={myFormStyles2} text={task.text} completeTask={this.completeTask} task={task} key={index}/>)
                        })
                    }
                 </div>
+
             </div>
         )
     }
 
 }
 let myFormStyles2 ={
-    backgroundColor:' #DCFFD7',
+    backgroundColor:'#DCFFD7',
     textDecoration: 'line-through',
     margin: "0",
 }
 let myFormStyles3 ={
-    backgroundColor:' #DCFFD7',
+    backgroundColor:'white',
     margin: "0",
 }
 
