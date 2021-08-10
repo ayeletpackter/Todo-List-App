@@ -10,7 +10,7 @@ class TodoList extends React.Component{
     constructor(){
         super()
         this.state={
-            todoList:[],
+            todoList:JSON.parse(localStorage.getItem("tasks")) || [],
             task:{
                 text:"",
                 isComplete:false
@@ -26,6 +26,8 @@ class TodoList extends React.Component{
         let tempArr=this.state.todoList
         const id=this.state.todoList.length+1
         tempArr.push({id,...this.state.task})
+        localStorage.setItem("tasks", JSON.stringify(tempArr))
+
         this.setState({todoList:tempArr})
         document.querySelector('#textInput').value=''
     }
@@ -42,10 +44,14 @@ class TodoList extends React.Component{
                 newNotes[index].isComplete=true
             }
         }
+        localStorage.setItem("tasks", JSON.stringify(newNotes))
+
          this.setState({todoList:newNotes})
     }
 
     deleteAllTasks=()=>{
+        localStorage.setItem("tasks", JSON.stringify([]))
+
         this.setState({todoList:[]})
 
     }
@@ -54,6 +60,8 @@ class TodoList extends React.Component{
         const temp=this.state.todoList.filter((t)=>{
             return t.isComplete==false
         })
+        localStorage.setItem("tasks", JSON.stringify(temp))
+
         this.setState({todoList:temp})
     }
 
