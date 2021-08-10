@@ -2,7 +2,7 @@ import React from 'react'
 import reactDom from 'react-dom'
 import Task from './Task.js'
 import TaskForm from './Form.js'
-import {} from 'react-bootstrap'
+import {Modal, Button} from 'react-bootstrap'
 
 
 
@@ -14,7 +14,8 @@ class TodoList extends React.Component{
             task:{
                 text:"",
                 isComplete:false
-            }
+            },
+            showModal: false
         }
     }
     handleUpdateState=(event)=>{
@@ -50,9 +51,10 @@ class TodoList extends React.Component{
     }
 
     deleteAllTasks=()=>{
+
         localStorage.setItem("tasks", JSON.stringify([]))
 
-        this.setState({todoList:[]})
+        this.setState({todoList:[], showModal: false})
 
     }
 
@@ -65,11 +67,20 @@ class TodoList extends React.Component{
         this.setState({todoList:temp})
     }
 
+
+    handleShowModal = () => {
+        this.setState({showModal:true})
+    }
+
+    handleClose = () => {
+        this.setState({showModal:false})
+    }
+
     render(){
         return(
             <div style={myFormStyles}>
                 <h1>MY TASKS LIST</h1>
-                <TaskForm handleUpdateState={this.handleUpdateState} addTask={this.addTask} deleteAllTasks={this.deleteAllTasks} deleteCompletedTasks={this.deleteCompletedTasks}/>
+                <TaskForm showModal={this.handleShowModal} handleUpdateState={this.handleUpdateState} addTask={this.addTask} deleteAllTasks={this.deleteAllTasks} deleteCompletedTasks={this.deleteCompletedTasks}/>
                 <div>
                    {
                        this.state.todoList.map((task,index)=>{
@@ -81,7 +92,20 @@ class TodoList extends React.Component{
                        })
                    }
                 </div>
-
+                <Modal show={this.state.showModal} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Are you sure you want to delete All Tasks?</Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={this.handleClose}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={this.deleteAllTasks}>
+                        Ok
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }
